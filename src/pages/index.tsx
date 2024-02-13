@@ -1,15 +1,9 @@
 import { useAuth } from '@/context/auth';
-import imageCompression from 'browser-image-compression';
 import { loginWithEmailAndPassword, logout, createNewUser } from '@/lib/auth';
 import { useEffect, useState } from 'react';
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  where,
-} from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { compressAndEncodeToBase64 } from '@/lib/convertImage';
 
 export default function Home() {
   const user = useAuth();
@@ -18,8 +12,6 @@ export default function Home() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [icon, setIcon] = useState<File | null>(null);
-
-  const db = getFirestore();
 
   const signIn = () => {
     setWaiting(true);
@@ -33,63 +25,12 @@ export default function Home() {
       });
   };
 
-  const compressImage = async (icon: File) => {
-    const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 100,
-      useWebWorker: true,
-    };
-
-    try {
-      const compressedFile = await imageCompression(icon, options);
-
-      // 圧縮された画像データを Base64 に変換
-      const base64String = await convertToBase64(compressedFile);
-
-      return base64String;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  };
-
-  const convertToBase64 = (file: File) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-
-      reader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
-
   const signUp = async () => {
     setWaiting(true);
-
     try {
       // Firebase Authenticationで新しいユーザーを作成
       const userCredential = await createNewUser(email, password);
-
-      // 画像データをBase64にエンコード
-      const iconDataUrl = await new Promise((resolve) => {
-        if (icon) {
-          const reader = new FileReader();
-          reader.readAsDataURL(icon);
-          reader.onload = () => {
-            resolve(reader.result);
-          };
-        } else {
-          resolve(null);
-        }
-      });
-
-      // 圧縮した画像データを取得
-      const compressedIcon = icon ? await compressImage(icon) : null;
+      const compressedIcon = await compressAndEncodeToBase64(icon!); //icon画像を圧縮しBase64に変換
 
       // Firestoreにユーザー情報を保存
       await addDoc(collection(db, 'test'), {
@@ -108,31 +49,31 @@ export default function Home() {
   const [data, setData] = useState<
     { id: string; name: string; email: string; icon: string }[]
   >([]);
-  const getData = async () => {
-    try {
-      // ログインユーザーのUIDを取得
-      const userUID = user?.id || ''; // user?.id が undefined の場合、空文字列をデフォルトとする
-
-      // ログインユーザーのデータを取得するクエリ
-      const querySnapshot = await getDocs(
-        query(collection(db, 'test'), where('uid', '==', userUID))
-      );
-
-      const userArray = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        name: doc.data().name,
-        email: doc.data().email,
-        icon: doc.data().icon,
-      }));
-
-      setData(userArray);
-      console.log('取得したデータ', userArray);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
+    const getData = async () => {
+      try {
+        // ログインユーザーのUIDを取得
+        const userUID = user?.id || ''; // user?.id が undefined の場合、空文字列をデフォルトとする
+
+        // ログインユーザーのデータを取得するクエリ
+        const querySnapshot = await getDocs(
+          query(collection(db, 'test'), where('uid', '==', userUID))
+        );
+
+        const userArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          name: doc.data().name,
+          email: doc.data().email,
+          icon: doc.data().icon,
+        }));
+
+        setData(userArray);
+        console.log('取得したデータ', userArray);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     getData();
   }, [user]); // userが変更されたときにgetDataを呼び出す
 
