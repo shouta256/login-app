@@ -30,6 +30,7 @@ export const PasswordForm: React.FC<FormProps> = ({
     e.preventDefault(); // デフォルトのフォームサブミットを防止
   };
 
+  //値が入力されているか確認するメソッド
   const validate = (newValue: string) => {
     if (newValue.length === 0) {
       setError('必須');
@@ -38,6 +39,7 @@ export const PasswordForm: React.FC<FormProps> = ({
     }
   };
 
+  //パスワードの表示を切り替えるメソッド
   const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault(); // ボタンクリックでフォームの送信を防ぐ
     if (isPasswordVisible === 'password') {
@@ -52,7 +54,7 @@ export const PasswordForm: React.FC<FormProps> = ({
       <form onSubmit={handleSubmit}>
         <label>
           <p className={styles.formName}>{formName[formType]}</p>{' '}
-          {/* {error.length !== 0 && <span className='text-danger'>{error}</span>} */}
+          {error.length !== 0 && <span className={styles.error}>{error}</span>}
           <br />
           <input
             className={styles.input}
