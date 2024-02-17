@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styles from '@/styles/formsModules/StringInputForm.module.css';
 
 type FormProps = {
   formType: string;
@@ -11,6 +12,8 @@ export const PasswordForm: React.FC<FormProps> = ({
 }) => {
   const [value, setValue] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [isPasswordVisible, setIsPasswordVisible] =
+    useState<string>('password');
   const formName: { [key: string]: string } = {
     password: 'パスワード',
     confirmPassword: 'パスワード（確認用）',
@@ -24,38 +27,37 @@ export const PasswordForm: React.FC<FormProps> = ({
   };
 
   const validate = (newValue: string) => {
-    passwordValidation(newValue);
-  };
-
-  const passwordValidation = async (newValue: string) => {
-    //パスワードポリシー
-    const lengthCheck = /^.{6,4096}$/.test(newValue);
-
-    const uppercaseCheck = /[A-Z]/.test(newValue);
-    const lowercaseCheck = /[a-z]/.test(newValue);
-    const digitCheck = /\d/.test(newValue);
-    const isPasswordValid =
-      lengthCheck && uppercaseCheck && lowercaseCheck && digitCheck;
-
-    //   const specialCharacterCheck = /[^\w$*.[]{}()?\"!@#%&/\\,><':;|_~`]/.test(newValue);
-    if (!isPasswordValid) {
-      setError('パスワードが要件を満たしていません');
+    if (newValue.length === 0) {
+      setError('必須');
     } else {
       setError('');
     }
   };
+
+  const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); // ボタンクリックでフォームの送信を防ぐ
+    if (isPasswordVisible === 'password') {
+      setIsPasswordVisible('text');
+    } else if (isPasswordVisible === 'text') {
+      setIsPasswordVisible('password');
+    }
+  };
+
   return (
-    <div>
+    <div className={styles.mainContainer}>
       <form>
         <label>
-          <p>{formName[formType]}</p>{' '}
-          {error.length !== 0 && <span className='text-danger'>{error}</span>}
+          <p className={styles.formName}>{formName[formType]}</p>{' '}
+          {/* {error.length !== 0 && <span className='text-danger'>{error}</span>} */}
+          <br />
           <input
-            type={'password'}
+            className={styles.input}
+            type={isPasswordVisible}
             value={value}
             onChange={handleChange}
             required
           />
+          <button onClick={handleOnClick}>表示</button>
         </label>
       </form>
     </div>
