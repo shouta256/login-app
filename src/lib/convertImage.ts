@@ -8,6 +8,7 @@ const compressImage = async (icon: File) => {
   };
 
   try {
+    //画像を圧縮
     const compressedFile = await imageCompression(icon, options);
 
     // 圧縮された画像データを Base64 に変換
@@ -20,6 +21,7 @@ const compressImage = async (icon: File) => {
   }
 };
 
+//FileをBase64形式に変換するメソッド
 const convertToBase64 = (file: File) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

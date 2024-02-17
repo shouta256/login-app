@@ -9,6 +9,7 @@ export const LoginForm = () => {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
 
+  //入力された値を変数に格納するメソッド
   const handleValueChange = (value: string, formType: string) => {
     switch (formType) {
       case 'email':
@@ -23,8 +24,7 @@ export const LoginForm = () => {
   };
 
   const Login = () => {
-    console.log('emailは', email);
-    console.log('passwordは', password);
+    //firebaseのエラーをキャッチする
     loginWithEmailAndPassword(email, password).catch((e: any) => {
       switch (e.code) {
         case 'auth/missing-email':

@@ -30,6 +30,7 @@ export const StringInputForm: React.FC<FormProps> = ({
     e.preventDefault(); // デフォルトのフォームサブミットを防止
   };
 
+  //値が入力されているか確認するメソッド
   const validate = (newValue: string) => {
     if (newValue.length === 0) {
       setError('必須');

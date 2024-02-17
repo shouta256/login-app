@@ -14,7 +14,7 @@ export const createNewUser = (
   return createUserWithEmailAndPassword(auth, email, password);
 };
 
-// メールアドレスとパスワードでのログイン
+// メールアドレスとパスワードでログインするメソッド
 export const loginWithEmailAndPassword = (
   email: string,
   password: string
@@ -22,6 +22,7 @@ export const loginWithEmailAndPassword = (
   return signInWithEmailAndPassword(auth, email, password);
 };
 
+//ログアウト用メソッド
 export const logout = (): Promise<void> => {
   return signOut(auth);
 };
