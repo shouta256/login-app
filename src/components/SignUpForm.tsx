@@ -79,13 +79,6 @@ export const SignUpForm = () => {
   const signUp = async () => {
     userBirthDate =
       userBirthYear + '年' + userBirthMonth + '月' + userBirthDay + '日';
-    console.log('nameは', name);
-    console.log('emailは', email);
-    console.log('passwordは', password);
-    console.log('fileは', icon);
-    console.log('生年月日は', userBirthDate);
-    console.log('sexは', sex);
-    console.log('isAgreeは', isAgree);
 
     if (name !== '' && email !== '' && icon !== null) {
       if (password === confirmPassword) {
@@ -107,13 +100,13 @@ export const SignUpForm = () => {
           console.error(error.code);
           switch (error.code) {
             case 'auth/email-already-in-use':
-              setEmailError('このメールアドレスは既に使用されています');
+              setGeneralError('このメールアドレスは既に使用されています');
               break;
             case 'auth/invalid-email':
-              setEmailError('メールアドレスの形式が正しくありません');
+              setGeneralError('メールアドレスの形式が正しくありません');
               break;
             case 'auth/weak-password':
-              setPasswordError(
+              setGeneralError(
                 '大文字、小文字、数字、英数字以外の文字を使用してください'
               );
               break;
@@ -137,12 +130,11 @@ export const SignUpForm = () => {
     <div className={styles.mainContainer}>
       <h2 className={styles.title}>サインアップ</h2>
       <StringInputForm formType='name' onValueChange={handleValueChange} />
-      {emailError !== '' && <span>{emailError}</span>}
 
       <StringInputForm formType='email' onValueChange={handleValueChange} />
 
-      {passwordError !== '' && <span>{passwordError}</span>}
       <PasswordForm formType='password' onValueChange={handleValueChange} />
+
       <PasswordForm
         formType='confirmPassword'
         onValueChange={handleValueChange}
@@ -152,7 +144,9 @@ export const SignUpForm = () => {
       <SexForm onValueChange={handleSexChange} />
       <TermsOfUserForm onValueChange={handleIsAgreeChange} />
 
-      {generalError !== '' && <span>{generalError}</span>}
+      {generalError !== '' && (
+        <span className={styles.error}>{generalError}</span>
+      )}
 
       <button className={styles.signUpButton} type='button' onClick={signUp}>
         サインアップ
