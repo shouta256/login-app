@@ -130,11 +130,8 @@ export const SignUpForm = () => {
     <div className={styles.mainContainer}>
       <h2 className={styles.title}>サインアップ</h2>
       <StringInputForm formType='name' onValueChange={handleValueChange} />
-
       <StringInputForm formType='email' onValueChange={handleValueChange} />
-
       <PasswordForm formType='password' onValueChange={handleValueChange} />
-
       <PasswordForm
         formType='confirmPassword'
         onValueChange={handleValueChange}
