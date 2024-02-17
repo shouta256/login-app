@@ -1,0 +1,30 @@
+.mainContainer {
+  display: flex;
+  align-items: center;
+  width: 80%;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  margin-left: 10px;
+  font-size: 1rem;
+}
+
+.input {
+}
+
+@media (max-width: 1024px) {
+  .formName {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .formName {
+    font-size: 1rem;
+  }
+}

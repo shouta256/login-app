@@ -1,0 +1,31 @@
+.mainContainer {
+  display: flex;
+  align-items: center;
+  width: 80%;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+}
+
+.formName {
+  margin-right: 10px; /* 適切な間隔を設定 */
+}
+
+.select {
+  margin-right: 5px;
+  font-size: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .formName {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .formName {
+    font-size: 1rem;
+  }
+}

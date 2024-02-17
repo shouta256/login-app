@@ -1,0 +1,63 @@
+.mainContainer {
+  width: 30%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: #34dbae40;
+}
+
+.title {
+  font-size: 2vw;
+}
+
+.error {
+  margin: 20px 0;
+  color: red;
+}
+
+.signUpButton {
+  padding: 10px 20px;
+  margin: 30px 0;
+  background-color: #34dbae; /* ボタンの背景色 */
+  color: #fff; /* ボタンのテキスト色 */
+  font-size: 1.5vw;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .mainContainer {
+    width: 80%;
+  }
+  .title {
+    font-size: 2rem;
+  }
+  .error {
+    margin: 15px 0;
+  }
+  .signUpButton {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .mainContainer {
+    width: 90%;
+  }
+  .title {
+    margin: 10px 0;
+    font-size: 1.5rem;
+  }
+  .error {
+    font-size: 0.8rem;
+  }
+  .signUpButton {
+    margin: 20px 0;
+    font-size: 1rem;
+  }
+}
