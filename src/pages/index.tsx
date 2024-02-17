@@ -5,8 +5,7 @@ import { db } from '@/lib/firebase';
 import { LoginForm } from '@/components/loginForm';
 import { SignUpForm } from '@/components/SignUpForm';
 import styles from '@/styles/Home.module.css';
-import { Profile } from '@/components/profile';
-
+import { Profile } from '@/components/Profile';
 export default function Home() {
   const user = useAuth();
   const [waiting, setWaiting] = useState<boolean>(false);
