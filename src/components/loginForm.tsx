@@ -1,7 +1,8 @@
 import { loginWithEmailAndPassword } from '@/lib/auth';
 import { useState } from 'react';
-import { NameOrEmailForm } from './Forms/NameOrEmailForm';
+import { StringInputForm } from './Forms/StringInputForm';
 import { PasswordForm } from './Forms/PasswordForm';
+import styles from '@/styles/LoginForm.module.css';
 
 export const LoginForm = () => {
   const [email, setEmail] = useState<string>('');
@@ -42,12 +43,13 @@ export const LoginForm = () => {
   };
 
   return (
-    <div>
-      <NameOrEmailForm formType='email' onValueChange={handleValueChange} />
+    <div className={styles.mainContainer}>
+      <h2 className={styles.title}>ログイン</h2>
+      <StringInputForm formType='email' onValueChange={handleValueChange} />
       <PasswordForm formType='password' onValueChange={handleValueChange} />
-      {error !== '' && <span>{error}</span>}
+      {error !== '' && <span className={styles.error}>{error}</span>}
 
-      <button type='button' onClick={Login}>
+      <button className={styles.loginButton} type='button' onClick={Login}>
         ログイン
       </button>
     </div>

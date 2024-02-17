@@ -1,15 +1,15 @@
-// UserForm.js
 import { createNewUser } from '@/lib/auth';
 import { useState } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { compressAndEncodeToBase64 } from '@/lib/convertImage';
-import { NameOrEmailForm } from '@/components/Forms/NameOrEmailForm';
+import { StringInputForm } from '@/components/Forms/StringInputForm';
 import { BirthDayForm } from './Forms/BirthDayForm';
 import { IconForm } from './Forms/IconForm';
 import { SexForm } from './Forms/SexForm';
 import { TermsOfUserForm } from './Forms/TermsOfUseForm';
 import { PasswordForm } from './Forms/PasswordForm';
+import styles from '@/styles/SignUpForm.module.css';
 
 export const SignUpForm = () => {
   const [name, setName] = useState<string>('');
@@ -87,7 +87,6 @@ export const SignUpForm = () => {
     console.log('sexは', sex);
     console.log('isAgreeは', isAgree);
 
-    const passwordCorrect = password === confirmPassword;
     if (name !== '' && email !== '' && icon !== null) {
       if (password === confirmPassword) {
         try {
@@ -135,11 +134,12 @@ export const SignUpForm = () => {
   };
 
   return (
-    <div>
-      <NameOrEmailForm formType='name' onValueChange={handleValueChange} />
+    <div className={styles.mainContainer}>
+      <h2 className={styles.title}>サインアップ</h2>
+      <StringInputForm formType='name' onValueChange={handleValueChange} />
       {emailError !== '' && <span>{emailError}</span>}
 
-      <NameOrEmailForm formType='email' onValueChange={handleValueChange} />
+      <StringInputForm formType='email' onValueChange={handleValueChange} />
 
       {passwordError !== '' && <span>{passwordError}</span>}
       <PasswordForm formType='password' onValueChange={handleValueChange} />
@@ -147,15 +147,15 @@ export const SignUpForm = () => {
         formType='confirmPassword'
         onValueChange={handleValueChange}
       />
-      <BirthDayForm onValueChange={handleBirthChange} />
       <IconForm onValueChange={handleIconChange} />
+      <BirthDayForm onValueChange={handleBirthChange} />
       <SexForm onValueChange={handleSexChange} />
       <TermsOfUserForm onValueChange={handleIsAgreeChange} />
 
       {generalError !== '' && <span>{generalError}</span>}
 
-      <button type='button' onClick={signUp}>
-        新規登録
+      <button className={styles.signUpButton} type='button' onClick={signUp}>
+        サインアップ
       </button>
     </div>
   );
