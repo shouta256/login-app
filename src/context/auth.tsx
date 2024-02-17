@@ -2,7 +2,6 @@ import { auth, db } from '@/lib/firebase';
 import { User } from '@/types/type';
 import { doc, getDoc, setDoc } from '@firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
-import firebase from 'firebase/compat/app';
 import {
   ReactNode,
   createContext,
