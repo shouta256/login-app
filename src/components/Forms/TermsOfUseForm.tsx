@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useState } from 'react';
+import styles from '@/styles/formsModules/TermsOfUserForm.module.css';
 
 type FormProps = {
   onValueChange: (newValue: boolean) => void;
@@ -15,20 +16,24 @@ export const TermsOfUserForm: React.FC<FormProps> = ({ onValueChange }) => {
   };
 
   return (
-    <div>
-      <form>
-        <label>
-          利用規約に同意する
-          <Link href='https://menherasenpai.notion.site/457df49475494671807673a0a3346451'>
-            利用規約はこちら
+    <div className={styles.mainContainer}>
+      <form className={styles.form}>
+        <input
+          className={styles.input}
+          type='checkbox'
+          checked={isAgree}
+          onChange={handleChange}
+          required
+        />
+        <div className={styles.text}>
+          <Link
+            className={styles.link}
+            href='https://menherasenpai.notion.site/457df49475494671807673a0a3346451'
+          >
+            利用規約
           </Link>
-          <input
-            type='radio'
-            checked={isAgree}
-            onChange={handleChange}
-            required
-          />
-        </label>
+          に同意する
+        </div>
       </form>
     </div>
   );

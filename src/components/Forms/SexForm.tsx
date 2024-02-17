@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styles from '@/styles/formsModules/SexForm.module.css';
 
 type FormProps = {
   onValueChange: (newValue: string) => void;
@@ -14,17 +15,20 @@ export const SexForm: React.FC<FormProps> = ({ onValueChange }) => {
   };
 
   return (
-    <div>
-      <form>
-        <label>
-          性別:
-          <select value={sex} onChange={handleChange} required>
-            <option value='man'>男性</option>
-            <option value='woman'>女性</option>
-            <option value='other'>その他</option>
-            <option value='noAnswer'>答えない</option>
-          </select>
-        </label>
+    <div className={styles.mainContainer}>
+      <form className={styles.form}>
+        <p className={styles.formName}>性別:</p>
+        <select
+          className={styles.select}
+          value={sex}
+          onChange={handleChange}
+          required
+        >
+          <option value='男性'>男性</option>
+          <option value='女性'>女性</option>
+          <option value='その他'>その他</option>
+          <option value='答えない'>答えない</option>
+        </select>
       </form>
     </div>
   );

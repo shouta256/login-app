@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styles from '@/styles/formsModules/IconForm.module.css';
 
 type FormProps = {
   onValueChange: (newValue: File | null) => void;
@@ -20,11 +21,13 @@ export const IconForm: React.FC<FormProps> = ({ onValueChange }) => {
   };
 
   return (
-    <form>
-      <label>
-        プロフィールアイコン:
-        <input type='file' onChange={handleChange} required />
-      </label>
-    </form>
+    <div className={styles.mainContainer}>
+      <form>
+        <label>
+          <p className={styles.formName}>プロフィールアイコン</p>
+          <input type='file' onChange={handleChange} required />
+        </label>
+      </form>
+    </div>
   );
 };

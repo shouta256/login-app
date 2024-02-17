@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import styles from '@/styles/formsModules/BirthDayFrom.module.css';
 type FormProps = {
   onValueChange: (dateKind: string, newValue: number) => void; // 親コンポーネントへのデータのコールバック関数
 };
@@ -82,23 +82,36 @@ export const BirthDayForm: React.FC<FormProps> = ({ onValueChange }) => {
   };
 
   return (
-    <div>
-      <form>
-        <label>
-          生年月日:
-          <select value={userBirthYear} onChange={handleYearChange} required>
-            {setUserBirthdayYearOptions()}
-          </select>
-          年
-          <select value={userBirthMonth} onChange={handleMonthChange} required>
-            {setUserBirthMonthOptions()}
-          </select>
-          月
-          <select value={userBirthDay} onChange={handleDayChange} required>
-            {setUserBirthDayOptions()}
-          </select>
-          日
-        </label>
+    <div className={styles.mainContainer}>
+      <form className={styles.form}>
+        <p className={styles.formName}>生年月日</p>
+        <select
+          className={styles.select}
+          value={userBirthYear}
+          onChange={handleYearChange}
+          required
+        >
+          {setUserBirthdayYearOptions()}
+        </select>
+        年
+        <select
+          className={styles.select}
+          value={userBirthMonth}
+          onChange={handleMonthChange}
+          required
+        >
+          {setUserBirthMonthOptions()}
+        </select>
+        月
+        <select
+          className={styles.select}
+          value={userBirthDay}
+          onChange={handleDayChange}
+          required
+        >
+          {setUserBirthDayOptions()}
+        </select>
+        日
       </form>
     </div>
   );
