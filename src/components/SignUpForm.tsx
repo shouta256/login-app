@@ -25,9 +25,7 @@ export const SignUpForm = () => {
   let userBirthDate: string;
   const [sex, setSex] = useState<string>('男性');
   const [isAgree, setIsAgree] = useState<boolean>(false);
-  const [generalError, setGeneralError] = useState<string>('');
-  const [passwordError, setPasswordError] = useState<string>('');
-  const [emailError, setEmailError] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   const handleValueChange = (value: string, formType: string) => {
     switch (formType) {
@@ -80,7 +78,7 @@ export const SignUpForm = () => {
     userBirthDate =
       userBirthYear + '年' + userBirthMonth + '月' + userBirthDay + '日';
 
-    if (name !== '' && email !== '' && icon !== null) {
+    if (name !== '' && email !== '' && icon !== null && isAgree) {
       if (password === confirmPassword) {
         try {
           // Firebase Authenticationで新しいユーザーを作成
@@ -97,32 +95,31 @@ export const SignUpForm = () => {
             sex: sex,
           });
         } catch (error: any) {
-          console.error(error.code);
+          //firebaseのエラーをキャッチ
           switch (error.code) {
             case 'auth/email-already-in-use':
-              setGeneralError('このメールアドレスは既に使用されています');
+              setError('このメールアドレスは既に使用されています');
               break;
             case 'auth/invalid-email':
-              setGeneralError('メールアドレスの形式が正しくありません');
+              setError('メールアドレスの形式が正しくありません');
               break;
             case 'auth/weak-password':
-              setGeneralError(
+              setError(
                 '大文字、小文字、数字、英数字以外の文字を使用してください'
               );
               break;
             default:
-              setGeneralError(
+              setError(
                 '認証に失敗しました。しばらく時間をおいて再度お試しください'
               );
               break;
           }
         }
       } else {
-        setPasswordError('パスワードが一致していません');
+        setError('パスワードが一致していません');
       }
     } else {
-      console.log('入力していない項目があります');
-      setGeneralError('入力していない項目があります');
+      setError('入力していない項目があります');
     }
   };
 
@@ -141,9 +138,7 @@ export const SignUpForm = () => {
       <SexForm onValueChange={handleSexChange} />
       <TermsOfUserForm onValueChange={handleIsAgreeChange} />
 
-      {generalError !== '' && (
-        <span className={styles.error}>{generalError}</span>
-      )}
+      {error !== '' && <span className={styles.error}>{error}</span>}
 
       <button className={styles.signUpButton} type='button' onClick={signUp}>
         サインアップ
