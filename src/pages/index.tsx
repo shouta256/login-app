@@ -1,18 +1,16 @@
 import { useAuth } from '@/context/auth';
-import { logout } from '@/lib/auth';
 import { useEffect, useState } from 'react';
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { LoginForm } from '@/components/loginForm';
 import { SignUpForm } from '@/components/SignUpForm';
+import styles from '@/styles/Home.module.css';
+import { Profile } from '@/components/profile';
 
 export default function Home() {
   const user = useAuth();
   const [waiting, setWaiting] = useState<boolean>(false);
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [icon, setIcon] = useState<File | null>(null);
+  const [isLogin, setIsLogin] = useState<boolean>(true);
 
   const [data, setData] = useState<
     {
@@ -58,31 +56,40 @@ export default function Home() {
     <div>
       {user === null && !waiting && (
         <div>
-          <h2>ログイン</h2>
-          <LoginForm />
-          <h2>新規登録</h2>
-          <SignUpForm />
+          {isLogin ? (
+            <div className={styles.main}>
+              <h2 className={styles.title}>こんにちは</h2>
+              <LoginForm />
+              <button
+                className={styles.changeButton}
+                onClick={() => setIsLogin(false)}
+              >
+                新規登録する
+              </button>
+            </div>
+          ) : (
+            <div className={styles.main}>
+              <h2 className={styles.title}>はじめまして</h2>
+              <SignUpForm />
+              <button
+                className={styles.changeButton}
+                onClick={() => setIsLogin(true)}
+              >
+                ログインする
+              </button>
+            </div>
+          )}
         </div>
       )}
-      {user && <button onClick={logout}>ログアウト</button>}
+
       {user && (
-        <div>
-          <h2>ログインユーザーのデータ</h2>
+        <div className={styles.main}>
           {data.length > 0 ? (
-            <ul>
+            <div>
               {data.map((user) => (
-                <li key={user.id}>
-                  <p>ユーザー名: {user.name}</p>
-                  <p>メールアドレス: {user.email}</p>
-                  <p>
-                    アイコン:{' '}
-                    {user.icon && <img src={user.icon} alt='user-icon' />}
-                  </p>
-                  <p>生年月日: {user.birthDay}</p>
-                  <p>性別: {user.sex}</p>
-                </li>
+                <Profile key={user.id} data={user} />
               ))}
-            </ul>
+            </div>
           ) : (
             <p>データがありません</p>
           )}
