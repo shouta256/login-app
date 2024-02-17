@@ -26,6 +26,10 @@ export const StringInputForm: React.FC<FormProps> = ({
     onValueChange(newValue, formType);
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // デフォルトのフォームサブミットを防止
+  };
+
   const validate = (newValue: string) => {
     if (newValue.length === 0) {
       setError('必須');
@@ -36,7 +40,7 @@ export const StringInputForm: React.FC<FormProps> = ({
 
   return (
     <div className={style.mainContainer}>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label>
           <p className={style.formName}>{formName[formType]}</p>
           {error.length !== 0 && <span className={style.error}>{error}</span>}
