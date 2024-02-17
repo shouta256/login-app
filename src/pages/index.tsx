@@ -8,9 +8,7 @@ import styles from '@/styles/Home.module.css';
 import { Profile } from '@/components/Profile';
 export default function Home() {
   const user = useAuth();
-  const [waiting, setWaiting] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(true);
-
   const [data, setData] = useState<
     {
       id: string;
@@ -26,7 +24,7 @@ export default function Home() {
     const getData = async () => {
       try {
         // ログインユーザーのUIDを取得
-        const userUID = user?.id || ''; // user?.id が undefined の場合、空文字列をデフォルトとする
+        const userUID = user?.id || '';
 
         // ログインユーザーのデータを取得するクエリ
         const querySnapshot = await getDocs(
@@ -43,7 +41,6 @@ export default function Home() {
         }));
 
         setData(userArray);
-        console.log('取得したデータ', userArray);
       } catch (error) {
         console.error(error);
       }
@@ -53,7 +50,8 @@ export default function Home() {
 
   return (
     <div>
-      {user === null && !waiting && (
+      {/* ログイン前の画面 */}
+      {user === null && (
         <div>
           {isLogin ? (
             <div className={styles.main}>
@@ -80,7 +78,7 @@ export default function Home() {
           )}
         </div>
       )}
-
+      {/* ログイン後の画面 */}
       {user && (
         <div className={styles.main}>
           {data.length > 0 ? (
